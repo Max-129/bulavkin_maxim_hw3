@@ -7,7 +7,11 @@ public class Main {
                 bankAccount.withDraw(6000);
                 System.out.println("С вашего счета были сняты 6000");
             } catch (LimitException e) {
-                bankAccount.setAmount(0);
+                try {
+                    bankAccount.withDraw(bankAccount.getAmount());
+                } catch (LimitException ex) {
+                    throw new RuntimeException(ex);
+                }
                 System.out.println("Все средства были сняты");
                 break;
             }
